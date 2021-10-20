@@ -45,7 +45,7 @@ func (b *Battery) createBasmentColumn(amountOfBasements int, amountOfElevatorPer
 		servedFloors = append(servedFloors, floor)
 		floor--
 	}
-	column := newColumn(columnID, "online", amountOfBasements, amountOfElevatorPerColumn, true, servedFloors)
+	column := newColumn(columnID, amountOfElevator, amountOfBasements, servedFloors, true)
 	b.columnsList = append(b.columnsList, column)
 	columnID++
 }
@@ -62,7 +62,7 @@ func (b *Battery) createColumns(amountOfColumns int, amountOfFloors int, amountO
 				floor++
 			}
 		}
-		column := newColumn(columnID, "online", amountOfFloors, amountOfElevatorPerColumn, false, servedFloors)
+		column := newColumn(columnID, amountOfElevators, amountOfFloors, servedFloors, false)
 		b.columnsList = append(b.columnsList, column)
 		columnID++
 	}
@@ -89,7 +89,7 @@ func (b *Battery) createBasementFloorRequestButtons(amountOfBasements int) {
 func (b *Battery) findBestColumn(_requestedFloor int) *Column {
 	col := Column{}
 	for _, c := range b.columnsList {
-		found := find(requestedFloor, c.servedFloors)
+		found := find(_requestedFloor, c.servedFloors)
 		if found == true {
 			col = c
 		}
@@ -108,11 +108,11 @@ func find(a int, list []int) bool { // function created to check if a list conta
 
 //Simulate when a user press a button at the lobby
 func (b *Battery) assignElevator(_requestedFloor int, _direction string) (*Column, *Elevator) {
-	column := b.findBestColumn(requestedFloor)
-	elevator := column.findBestElevator(1, direction)
-	elevator.floorRequestList = append(elevator.floorRequestList, requestedFloor)
+	column := b.findBestColumn(_requestedFloor)
+	elevator := column.findBestElevator(1, _direction)
+	elevator.floorRequestsList = append(elevator.floorRequestsList, _requestedFloor)
 	elevator.sortFloorList()
 	elevator.move()
-	elevator.openDoors()
+	elevator.operateDoors()
 
 }

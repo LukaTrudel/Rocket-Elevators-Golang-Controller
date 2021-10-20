@@ -154,5 +154,5 @@ func runScenario(scenarioNumber int) {
 	default:
 		fmt.Println("Invalid scenario number")
 	}
-	
+
 }
