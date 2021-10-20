@@ -19,14 +19,14 @@ type Column struct {
 }
 
 func NewColumn(_id string, _status string, _amountOfFloors, _amountOfElevators int, _servedFloors []int, _isBasement bool) *Column {
-	newColumn := new(Column)
-	newColumn.ID = _id
-	newColumn.status = _status
-	newColumn.servedFloorsList = _servedFloors
+	c := new(Column)
+	c.ID = _id
+	c.status = _status
+	c.servedFloorsList = _servedFloors
 
-	newColumn.createElevators(_amountOfFloors, _amountOfElevators)
-	newColumn.createCallButtons(_amountOfFloors, _isBasement)
-	return newColumn
+	c.createElevators(_amountOfFloors, _amountOfElevators)
+	c.createCallButtons(_amountOfFloors, _isBasement)
+	return c
 }
 
 func (c *Column) createCallButtons(_amountOfFloors int, _isBasement bool) {
