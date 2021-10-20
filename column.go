@@ -1,7 +1,6 @@
 package main
 
 import (
-	//"fmt"
 	"math"
 	"strconv"
 )
@@ -69,10 +68,6 @@ func (c *Column) findElevator(_requestedFloor int, _requestedDirection string) *
 	var bestElevator *Elevator
 	var bestScore int = 6
 	var referenceGap int = 100000
-	// type BestElevatorInformations struct {
-	// 	bestElevator            *Elevator
-	// 	bestScore, referenceGap int
-	// }
 
 	if _requestedFloor == 1 {
 		for _, elevator := range c.elevatorsList {
