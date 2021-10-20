@@ -40,31 +40,31 @@ func (b *Battery) createBasmentColumn(_amountOfBasements int, _amountOfElevatorP
 		servedFloors = append(servedFloors, floor)
 		floor--
 	}
-	column := NewColumn(strconv.Itoa(columnID), _amountOfBasements, _amountOfElevatorPerColumn, servedFloors, true)
+	column := NewColumn(strconv.Itoa(columnID), "online", _amountOfBasements, _amountOfElevatorPerColumn, servedFloors, true)
 	b.columnsList = append(b.columnsList, *column)
 	columnID++
 }
 func (b *Battery) createColumns(_amountOfColumns int, _amountOfFloors int, _amountOfElevatorPerColumn int) { // this will create the columns with thier floors
-	amountOfFloorsPerColumn := int(math.Round(float64(_amountOfFloors / _amountOfColumns)))
-	n := int(amountOfFloorsPerColumn)
-	floor := 1
+	var amountOfFloorsPerColumn = int(math.Round(float64(_amountOfFloors / _amountOfColumns)))
+	//n := int(amountOfFloorsPerColumn)
+	floor = 1
 
 	for i := 0; i < _amountOfColumns; i++ {
 		var servedFloors []int
-		for j := 0; j < n; j++ {
+		for j := 0; j < amountOfFloorsPerColumn; j++ {
 			if floor <= _amountOfFloors {
 				servedFloors = append(servedFloors, floor)
 				floor++
 			}
 		}
-		column := NewColumn(strconv.Itoa(columnID), _amountOfFloors, _amountOfElevatorPerColumn, servedFloors, false)
+		column := NewColumn(strconv.Itoa(columnID), "online", _amountOfFloors, _amountOfElevatorPerColumn, servedFloors, false)
 		b.columnsList = append(b.columnsList, *column)
 		columnID++
 	}
 }
 
 func (b *Battery) createFloorRequestButtons(_amountOfFloors int) {
-	buttonFloor := 1
+	var buttonFloor = 1
 	for i := 0; i < _amountOfFloors; i++ {
 		floorRequestButton := NewFloorRequestButton(floorRequestButtonID, "OFF", buttonFloor, "up")
 		b.floorRequestButtonsList = append(b.floorRequestButtonsList, *floorRequestButton)
@@ -74,7 +74,7 @@ func (b *Battery) createFloorRequestButtons(_amountOfFloors int) {
 }
 
 func (b *Battery) createBasementFloorRequestButtons(amountOfBasements int) {
-	buttonFloor := -1
+	var buttonFloor = -1
 	for i := 0; i < amountOfBasements; i++ {
 		basementFloorRequestButton := NewFloorRequestButton(floorRequestButtonID, "OFF", buttonFloor, "down")
 		b.floorRequestButtonsList = append(b.floorRequestButtonsList, *basementFloorRequestButton)

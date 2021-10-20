@@ -33,7 +33,6 @@ func NewElevator(_id, _status string, _amountOfFloors, _currentFloor int) *Eleva
 	e.currentFloor = _currentFloor
 	e.direction = ""
 	e.door = Door{1, ""}
-	// e.floorRequestsList = []int
 
 	return e
 
@@ -41,7 +40,7 @@ func NewElevator(_id, _status string, _amountOfFloors, _currentFloor int) *Eleva
 
 func (e *Elevator) move() {
 	for len(e.floorRequestsList) != 0 {
-		destination := e.floorRequestsList[0]
+		var destination int = e.floorRequestsList[0]
 		e.status = "moving"
 		if e.currentFloor < destination {
 			e.direction = "up"
@@ -67,7 +66,6 @@ func (e *Elevator) move() {
 // func RemoveIndex(s []int, index int) []int {
 // 	return append(s[:index], s[index+1:]...) // Function created to remove the first index of a list
 // }
-
 func (e *Elevator) sortFloorList() {
 	if e.direction == "up" {
 		sort.Ints(e.floorRequestsList)

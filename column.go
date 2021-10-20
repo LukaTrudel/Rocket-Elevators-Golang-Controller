@@ -1,6 +1,7 @@
 package main
 
 import (
+	//"fmt"
 	"math"
 	"strconv"
 )
@@ -11,29 +12,23 @@ var callButtonID int = 1
 type Column struct {
 	ID               string
 	status           string
+	servedFloorsList []int
 	isBasement       bool
 	elevatorsList    []*Elevator
 	callButtonsList  []CallButton
-	servedFloorsList []int
 }
 
-func NewColumn(_id string, _amountOfElevators int, _amountOfFloors int, _servedFloors []int, _isBasement bool) *Column {
-	c := new(Column)
-	c.ID = _id
-	c.status = "online"
-	c.isBasement = _isBasement
-	c.servedFloorsList = _servedFloors
-	c.createElevators(_amountOfFloors, _amountOfElevators)
-	c.createCallButtons(_amountOfFloors, _isBasement)
+func NewColumn(_id string, _status string, _amountOfFloors, _amountOfElevators int, _servedFloors []int, _isBasement bool) *Column {
+	newColumn := new(Column)
+	newColumn.ID = _id
+	newColumn.status = _status
+	newColumn.servedFloorsList = _servedFloors
 
-	return c
+	newColumn.createElevators(_amountOfFloors, _amountOfElevators)
+	newColumn.createCallButtons(_amountOfFloors, _isBasement)
+	return newColumn
 }
-func (c *Column) createElevators(_amountOfFloors int, _amountOfElevators int) {
-	for i := 0; i < _amountOfElevators; i++ {
-		c.elevatorsList = append(c.elevatorsList, NewElevator(strconv.Itoa(elevatorID), "idle", _amountOfFloors, 1))
-		elevatorID++
-	}
-}
+
 func (c *Column) createCallButtons(_amountOfFloors int, _isBasement bool) {
 	if _isBasement {
 		var buttonFloor int = -1
@@ -53,6 +48,14 @@ func (c *Column) createCallButtons(_amountOfFloors int, _isBasement bool) {
 	}
 }
 
+func (c *Column) createElevators(_amountOfFloors, _amountOfElevators int) {
+	for i := 0; i < _amountOfElevators; i++ {
+		c.elevatorsList = append(c.elevatorsList, NewElevator(strconv.Itoa(elevatorID), "idle", _amountOfFloors, 1))
+		elevatorID++
+	}
+}
+
+//Simulate when a user press a button on a floor to go back to the first floor
 func (c *Column) requestElevator(_requestedFloor int, _direction string) *Elevator {
 	elevator := c.findElevator(_requestedFloor, _direction)
 	elevator.addNewRequest(_requestedFloor)
@@ -62,11 +65,15 @@ func (c *Column) requestElevator(_requestedFloor int, _direction string) *Elevat
 	return elevator
 }
 
-//Simulate when a user press a button on a floor to go back to the first floor
 func (c *Column) findElevator(_requestedFloor int, _requestedDirection string) *Elevator {
 	var bestElevator *Elevator
 	var bestScore int = 6
 	var referenceGap int = 100000
+	// type BestElevatorInformations struct {
+	// 	bestElevator            *Elevator
+	// 	bestScore, referenceGap int
+	// }
+
 	if _requestedFloor == 1 {
 		for _, elevator := range c.elevatorsList {
 			if 1 == elevator.currentFloor && elevator.status == "stopped" {
