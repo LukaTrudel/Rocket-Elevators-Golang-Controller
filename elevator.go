@@ -5,6 +5,15 @@ import (
 	"sort"
 )
 
+func contains(s []int, e int) bool {
+	for _, a := range s {
+		if a == e {
+			return true
+		}
+	}
+	return false
+}
+
 type Elevator struct {
 	ID                    string
 	status                string
@@ -16,15 +25,15 @@ type Elevator struct {
 	completedRequestsList []int
 }
 
-func NewElevator(_elevatorID string) *Elevator {
-	e := Elevator{}
-	e.ID = _elevatorID
-	e.status = "online"
-	// e.amountOfFloors = amountOfFloors
-	e.direction = "null"
-	// e.currentFloor = currentFloor
-	e.door = Door{}
-	e.floorRequestsList = []int{}
+func NewElevator(_id, _status string, _amountOfFloors, _currentFloor int) *Elevator {
+	e := new(Elevator)
+	e.ID = _id
+	e.status = _status
+	e.amountOfFloors = _amountOfFloors
+	e.currentFloor = _currentFloor
+	e.direction = ""
+	e.door = Door{1, ""}
+	// e.floorRequestsList = []int
 
 	return e
 
@@ -36,34 +45,37 @@ func (e *Elevator) move() {
 		e.status = "moving"
 		if e.currentFloor < destination {
 			e.direction = "up"
+			e.sortFloorList()
 			for e.currentFloor < destination {
 				e.currentFloor++
 			}
 		} else if e.currentFloor > destination {
 			e.direction = "down"
+			e.sortFloorList()
 			for e.currentFloor > destination {
 				e.currentFloor--
 			}
 		}
-		e.status = "idle"
+		e.status = "stopped"
 		e.operateDoors()
-		e.completedRequestsList = append(e.floorRequestsList, 0)
-		e.floorRequestsList = RemoveIndex(e.floorRequestsList, 0)
+		e.completedRequestsList = append(e.completedRequestsList, e.floorRequestsList[0])
+		e.floorRequestsList = e.floorRequestsList[1:]
 	}
+	e.status = "idle"
 }
 
-func RemoveIndex(s []int, index int) []int {
-	return append(s[:index], s[index+1:]...) // Function created to remove the first index of a list
-}
+// func RemoveIndex(s []int, index int) []int {
+// 	return append(s[:index], s[index+1:]...) // Function created to remove the first index of a list
+// }
 
 func (e *Elevator) sortFloorList() {
 	if e.direction == "up" {
-		sort.Slice(e.floorRequestsList, func(i, j int) bool { return e.floorRequestsList[i] < e.floorRequestsList[j] })
-	} else {
-		sort.Slice(e.floorRequestsList, func(i, j int) bool { return e.floorRequestsList[i] > e.floorRequestsList[j] })
+		sort.Ints(e.floorRequestsList)
+	} else if e.direction == "down" {
+		sort.Ints(e.floorRequestsList)
+		e.floorRequestsList = (e.floorRequestsList)
 	}
 }
-
 func (elevator *Elevator) operateDoors() {
 	if elevator.status == "stopped" || elevator.status == "idle" {
 		elevator.door.status = "open"
@@ -74,5 +86,19 @@ func (elevator *Elevator) operateDoors() {
 			elevator.status = "idle"
 			fmt.Println("Elevator ", elevator.ID, " status: ", elevator.status)
 		}
+	}
+}
+
+func (e *Elevator) addNewRequest(requestedFloor int) {
+	if !containsElement(requestedFloor, e.floorRequestsList) {
+		e.floorRequestsList = append(e.floorRequestsList, requestedFloor)
+	}
+
+	if e.currentFloor < requestedFloor {
+		e.direction = "up"
+	}
+
+	if e.currentFloor > requestedFloor {
+		e.direction = "down"
 	}
 }
