@@ -74,12 +74,10 @@ func (e *Elevator) sortFloorList() {
 func (elevator *Elevator) operateDoors() {
 	if elevator.status == "stopped" || elevator.status == "idle" {
 		elevator.door.status = "open"
-		// fmt.Println("Doors: ", elevator.door.status)
-		// fmt.Println("(doors stay open for 6 seconds)")
+
 		if len(elevator.floorRequestsList) < 1 {
 			elevator.direction = ""
 			elevator.status = "idle"
-			//fmt.Println("Elevator ", elevator.ID, " status: ", elevator.status)
 		}
 	}
 }

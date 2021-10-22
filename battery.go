@@ -46,7 +46,6 @@ func (b *Battery) createBasmentColumn(_amountOfBasements int, _amountOfElevatorP
 }
 func (b *Battery) createColumns(_amountOfColumns int, _amountOfFloors int, _amountOfElevatorPerColumn int) { // this will create the columns with thier floors
 	var amountOfFloorsPerColumn = int(math.Round(float64(_amountOfFloors / _amountOfColumns)))
-	//n := int(amountOfFloorsPerColumn)
 	floor = 1
 
 	for i := 0; i < _amountOfColumns; i++ {
