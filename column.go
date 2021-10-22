@@ -7,6 +7,7 @@ import (
 
 var elevatorID int = 1
 var callButtonID int = 1
+var currentTime int = 1
 
 type Column struct {
 	ID               string
@@ -53,6 +54,31 @@ func (c *Column) createElevators(_amountOfFloors, _amountOfElevators int) {
 		elevatorID++
 	}
 }
+
+// func (c *Column) busyHours(elevatorsList []int){
+// 	maxFloor = nil
+// 	if (currentTime > 7) && (currentTime < 10) {
+// 		for i :=0; i < c.elevatorsList; i++ {
+// 			floor = 1
+// 		}
+// 	} else if (currentTime > 16) && (currentTime < 19) {
+// 		for i :=0; i < c.elevatorsList; i++ {
+// 			floor = maxFloor
+// 		}
+// 	}
+// }
+
+// SEQUENCE optimizeDisplacement USING elevatorsList
+//         IF CURRENTTIME IS GREATER THAN 6 AM AND LESS THAN 10 AM THEN    //Logic back to the origin
+//             FOR EACH elevator IN elevatorsList
+//                 SET floor OF elevator TO 1
+//             ENDFOR
+//         ELSE IF CURRENTTIME IS GREATER THAN 4 PM AND LESS THAN 7 PM THEN    //Logic to wait at last served floor of the column when people are leaving building
+//             FOR EACH elevator IN elevatorsList
+//                 SET floor OF elevator TO maximumFloor OF COLUMN
+//             ENDFOR
+//         ENDIF
+//     ENDSEQUENCE
 
 //Simulate when a user press a button on a floor to go back to the first floor
 func (c *Column) requestElevator(_requestedFloor int, _direction string) *Elevator {

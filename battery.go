@@ -101,15 +101,6 @@ func (b *Battery) findBestColumn(_requestedFloor int) *Column {
 	return nil
 }
 
-// func find(a int, list []int) bool { // function created to check if a list contains a given number
-// 	for _, b := range list {
-// 		if b == a {
-// 			return true
-// 		}
-// 	}
-// 	return false
-// }
-
 //Simulate when a user press a button at the lobby
 func (b *Battery) assignElevator(_requestedFloor int, _direction string) (*Column, *Elevator) {
 	column := *b.findBestColumn(_requestedFloor)

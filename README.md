@@ -1,7 +1,17 @@
-# Rocket-Elevators-Golang-Controller
-This is the template to use for the golang commercial controller. You will find the classes that should be used along with some methods described in the requirements. The necessary files to run some tests are also included. 
+# Welcome to Rocket Elevators!
 
-### Installation
+This program simulates a commercial elevator controller that can be set up in a building with any number of batteries, columns, elevators or floors.
+
+In the scenarios provided, we use a building of 66 floors including 6 basements served by 4 columns of 5 cages each. The floors are separated amongst the columns in the following way: B6 to B1, 2 to 20, 21 to 40, 41 to 60.
+
+All the columns serve the 1st floor (Lobby). 
+
+There are no floor buttons inside the elevators. Instead, there is a panel at the Lobby with which the users select where they want to go.
+The client is then sent to the column that serves the requested floor, they enter the elevator that was selected for them and the algorithm makes sure that they reach their destination.
+
+Since there are no floor buttons inside the elevators, users that are on a floor cannot select where they want to go and must imperatively go back to the Lobby.
+
+---------------RUN YOUR OWN TEST!---------------
 
 With golang installed on your computer, all you need to do is initialize the module:
 
@@ -17,18 +27,7 @@ To launch the tests:
 
 `go test`
 
-With a fully completed project, you should get an output like:
-
-![Screenshot from 2021-06-15 15-25-10](https://user-images.githubusercontent.com/28630658/122111573-e6ea7380-cded-11eb-95e3-95e0096a1b3a.png)
-
 You can also get more details about each test by adding the `-v` flag: 
 
 `go test -v` 
 
-which should give something like: 
-
-![Screenshot from 2021-06-15 15-25-51](https://user-images.githubusercontent.com/28630658/122111659-fd90ca80-cded-11eb-991b-d9f6fe1d317b.png)
-
-The test and scenarios files can be left in your final project. The grader will run tests similar to the ones provided.
-
-Of course, make sure to edit this Readme file to describe your own project!
